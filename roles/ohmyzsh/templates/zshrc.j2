@@ -59,9 +59,9 @@ autoload -U compinit && compinit
 
 source $ZSH/oh-my-zsh.sh
 
-# autoload zkbd
-# [[ ! -f ${ZDOTDIR:-$HOME}/.zkbd/$TERM-$DISPLAY ]] && zkbd
-# source ${ZDOTDIR:-$HOME}/.zkbd/$TERM-$DISPLAY
+autoload zkbd
+[[ ! -f ${ZDOTDIR:-$HOME}/.zkbd/$TERM-$DISPLAY ]] && zkbd
+source ${ZDOTDIR:-$HOME}/.zkbd/$TERM-$DISPLAY
 
 [[ -n ${key[Backspace]} ]] && bindkey "${key[Backspace]}" backward-delete-char
 [[ -n ${key[Insert]} ]] && bindkey "${key[Insert]}" overwrite-mode
@@ -81,6 +81,7 @@ alias lsn="ls -l | awk '{k=0;for(i=0;i<=8;i++)k+=((substr(\$1,i+2,1)~/[rwx]/) \
              *2^(8-i));if(k)printf(\"%0o \",k);print}'"
 
 
+RANGER_LOAD_DEFAULT_RC="false"
 # for people wanting to use ranger - makes the current directory stay on exit back to shell
 alias ranger=". ranger"
 
@@ -88,5 +89,10 @@ alias ranger=". ranger"
 export EDITOR=/usr/bin/nvim
 export VISUAL=/usr/bin/nvim
 
-# tools
-export PATH=$PATH:~/tools/bin
+# adding to PATH
+path+=~/tools/bin
+path+=/home/tburak/bin
+path+=/home/.local/bin
+#export PATH=$PATH:~/tools/bin
+#export PATH=$PATH:home/tburak/bin/kas-container
+export PATH
