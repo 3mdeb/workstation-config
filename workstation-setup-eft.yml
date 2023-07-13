@@ -8,6 +8,7 @@
   roles:
     - packages_base
     - packages_embedded
+    - uefitool
     - role:  geerlingguy.docker
       become: true
     - git

@@ -1,0 +1,39 @@
+---
+- name: Create ~/.local/bin directory if it doesn't exist
+  file:
+    path: "{{ home_dir }}/.local/bin"
+    state: directory
+    recurse: yes
+
+- name: Download UEFIExtract archive
+  get_url:
+    url: "{{ uefitool_url }}UEFIExtract_NE_{{ uefitool_version }}_x64_linux.zip"
+    dest: "/tmp/UEFIExtract_NE_{{ uefitool_version }}_x64_linux.zip"
+
+- name: Extract UEFIExtract archive
+  unarchive:
+    src: "/tmp/UEFIExtract_NE_{{ uefitool_version }}_x64_linux.zip"
+    dest: "{{ home_dir }}/.local/bin"
+    remote_src: true
+
+- name: Download UEFIFind archive
+  get_url:
+    url: "{{ uefitool_url }}UEFIFind_NE_{{ uefitool_version }}_x64_linux.zip"
+    dest: "/tmp/UEFIFind_NE_{{ uefitool_version }}_x64_linux.zip"
+
+- name: Extract UEFIFind archive
+  unarchive:
+    src: "/tmp/UEFIFind_NE_{{ uefitool_version }}_x64_linux.zip"
+    dest: "{{ home_dir }}/.local/bin"
+    remote_src: true
+
+- name: Download UEFITool archive
+  get_url:
+    url: "{{ uefitool_url }}UEFITool_NE_{{ uefitool_version }}_x64_linux.zip"
+    dest: "/tmp/UEFITool_NE_{{ uefitool_version }}_x64_linux.zip"
+
+- name: Extract UEFITool archive
+  unarchive:
+    src: "/tmp/UEFITool_NE_{{ uefitool_version }}_x64_linux.zip"
+    dest: "{{ home_dir }}/.local/bin"
+    remote_src: true
