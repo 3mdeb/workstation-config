@@ -1,0 +1,11 @@
+- name: Install git
+  become: true
+  apt:
+    name: git
+    state: present
+
+- name: Setup gitconfig file
+  template:
+    src: gitconfig.j2
+    dest: "{{ home_dir }}/.gitconfig"
+    mode: 0644

@@ -1,0 +1,19 @@
+- hosts: localhost
+  connection: local
+  user: "{{ username }}"
+  become: false
+  vars:
+    docker_users:
+      - "{{ username }}"
+  roles:
+    - ubuntu/packages_base
+    - ubuntu/packages_embedded
+    - uefitool
+    - role:  geerlingguy.docker
+      become: true
+    - ubuntu/git
+    - ubuntu/tmux
+    - ubuntu/ohmyzsh
+    - ubuntu/vscodium
+    # The messages role should stay as the last one.
+    - messages
