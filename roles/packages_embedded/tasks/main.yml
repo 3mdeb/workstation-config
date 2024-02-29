@@ -3,6 +3,7 @@
   dnf:
     name:
     - '@development-tools'
+    - telnet
     - minicom
     - openocd
     - clang-tools-extra
