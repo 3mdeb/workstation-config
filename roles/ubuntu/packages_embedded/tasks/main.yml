@@ -1,0 +1,46 @@
+- name: Install embedded development packages
+  become: true
+  apt:
+    name:
+    - build-essential
+    - minicom
+    - openocd
+    state: latest
+
+- name: Install kas container 3.0.2
+  get_url:
+    url: https://raw.githubusercontent.com/siemens/kas/3.0.2/kas-container
+    dest: "{{ home_dir }}/.local/bin/kas-container"
+    mode: '0755'
+
+- name: Create the dialout group if it doesn't exist
+  become: true
+  group:
+    name: "dialout"
+    state: present
+
+- name: Allow user to use serial device without sudo
+  become: true
+  user:
+    name: "{{ username }}"
+    groups: dialout
+    append: yes
+
+- name: Check if minicom default settings exist
+  stat:
+    path: "/etc/minirc.dfl"
+  register: minirc_dfl_data
+
+- name: Report if minicom default settings exist
+  debug:
+    msg: "minirc.dfl exists"
+  when: minirc_dfl_data.stat.exists
+
+- name: Create minicom settings if it does not exist
+  become: true
+  copy:
+    dest: "/etc/minirc.dfl"
+    content: |
+      # Machine-generated file - use "minicom -s" to change parameters.
+      pu rtscts           No
+  when: not minirc_dfl_data.stat.exists

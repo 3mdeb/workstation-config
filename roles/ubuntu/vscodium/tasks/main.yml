@@ -1,0 +1,50 @@
+---
+- name: Import VSCodium APT release key
+  become: true
+  shell: >
+    wget -O- https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/-/raw/master/pub.gpg |
+    gpg --dearmor |
+    sudo tee /usr/share/keyrings/vscodium-archive-keyring.gpg > /dev/null
+
+- name: Install /etc/apt/sources.list.d/vscodium.list
+  become: true
+  template:
+    src: "vscodium.list.j2"
+    dest: "/etc/apt/sources.list.d/vscodium.list"
+    mode: '0644'
+
+- name: Install VSCodium
+  become: true
+  apt:
+    name: codium
+    state: present
+    update_cache: yes
+
+- name: Remove VSCode
+  become: true
+  apt:
+    name: code
+    state: absent
+
+- name: Create symbolic link from /usr/bin/codium to /usr/bin/code
+  become: true
+  file:
+    src: /usr/bin/codium
+    dest: /usr/bin/code
+    state: link
+
+- name: Ensure {{ home_dir }}/.config/VSCodium/User directory exists
+  file:
+    path: "{{ home_dir }}/.config/VSCodium/User"
+    state: directory
+
+- name: Install settings.json file
+  template:
+    src: "settings.json.j2"
+    dest: "{{ home_dir }}/.config/VSCodium/User/settings.json"
+    mode: '0644'
+
+- name: Install extensions
+  shell: codium --install-extension "{{ item }}"
+  loop: "{{ codium_extensions }}"
+  when: codium_extensions is defined and codium_extensions | length > 0

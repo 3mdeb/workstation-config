@@ -1,0 +1,44 @@
+---
+- name: Install Zsh and git
+  become: true
+  apt:
+    name:
+    - git
+    - zsh
+    state: present
+
+- name: Cloning oh-my-zsh
+  git:
+    repo: https://github.com/robbyrussell/oh-my-zsh
+    dest: "{{ home_dir }}/.oh-my-zsh"
+
+- name: Cloning zsh-256color plugin
+  git:
+    repo: https://github.com/chrissicool/zsh-256color
+    dest: "{{ home_dir }}/.oh-my-zsh/custom/plugins/zsh-256color"
+
+- name: Cloning zsh-completions
+  git:
+    repo: https://github.com/zsh-users/zsh-completions
+    dest: "{{ home_dir }}/.oh-my-zsh/custom/plugins/zsh-completions"
+
+- name: Creating new ~/.zshrc from template
+  template:
+    src: "{{ zshrc_template }}"
+    dest: "{{ home_dir }}/.zshrc"
+    mode: '0644'
+
+- name: Ensure ~/.zkbd exists
+  file:
+    path: "{{ home_dir }}/.zkbd"
+    state: directory
+
+- name: Creating new ~/.zkbd/xterm-256color-:0 from template
+  template:
+    src: "{{ zkbd_template }}"
+    dest: "{{ home_dir }}/.zkbd/xterm-256color-:0"
+    mode: '0644'
+
+- name: Set Zsh as defult shell
+  become: true
+  command: "chsh -s /bin/zsh {{ username }}"
