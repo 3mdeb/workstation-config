@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 sudo dnf install ansible
-ansible-galaxy install geerlingguy.docker
+ansible-galaxy role install geerlingguy.docker
