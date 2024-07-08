@@ -53,8 +53,11 @@
 [sendemail]
 	smtpserver = /usr/bin/msmtp
 [push]
-	default = matching
+	default = simple
+	autoSetupRemote = true
 [gpg]
 	program = gpg
 [commit]
 	gpgsign = true
+[submodule]
+	recurse = true
