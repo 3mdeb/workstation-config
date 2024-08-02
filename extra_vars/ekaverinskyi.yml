@@ -1,11 +1,11 @@
 ---
 # general variables
-username: embedded_dev_user
+username: ekaverinskyi
 home_dir: /home/{{ username }}
 
 # used by git gitconfig template
-git_name: "Embedd User"
-git_email: "embedded.user@3mdeb.com"
+git_name: "Eduard Kaverinskyi"
+git_email: "eduard.kaverinskyi@3mdeb.com"
 
 # used by ohmyzsh (zshrc template)
 zshrc_template: "zshrc.j2"
@@ -21,5 +21,5 @@ vimrc_template: "vimrc.j2"
 ssh_config_template: "config.j2"
 
 # VSCodium (VSCode) extension to be instlaled by the vscodium role
-# codium_extensions:
-#   - vscodevim.vim
+codium_extensions:
+  - vscodevim.vim
