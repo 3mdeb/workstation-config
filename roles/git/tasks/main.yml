@@ -9,3 +9,15 @@
     src: gitconfig.j2
     dest: "{{ home_dir }}/.gitconfig"
     mode: 0644
+
+- name: Ensure ~/.local/bin exists
+  file:
+    path: "{{ home_dir }}/.local/bin"
+    state: directory
+    mode: '0755'
+
+- name: Install ffmerge script
+  copy:
+    src: ffmerge.sh
+    dest: "{{ home_dir }}/.local/bin/ffmerge.sh"
+    mode: '0755'
