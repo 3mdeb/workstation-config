@@ -1,0 +1,64 @@
+---
+- name: Install Sway and friends
+  become: true
+  dnf:
+    name:
+    - sway                   # Window manager / Wayland compositor
+    - swayidle               # Idle daemon
+    - swaylock               # Lock screen
+    - swaybg                 # Wallpaper setting tool
+    - sway-systemd           # SystemD integration glue
+    - waybar                 # Top bar
+    - bemenu                 # Application launcher, scriptable menu
+    - j4-dmenu-desktop       # App launcher generator for bemenu
+    - kanshi                 # Dynamic monitor configuration daemon
+    - mako                   # Notification daemon
+    - alacritty              # Terminal emulator
+    - xdg-desktop-portal     # Screen sharing / file picking service
+    - xdg-desktop-portal-wlr # For screen sharing in wlroots based compositors
+    - xdg-desktop-portal-gtk # For file pickers in Flatpak apps
+    - wdisplays              # Graphical monitor configuration tool
+    - grimshot               # Screenshot tool
+    - dex                    # Autostart manager
+    - wob                    # Overlay bar, for volume and brightness
+    - network-manager-applet # Network manager applet
+    - blueman                # Bluetooth manager
+    - playerctl              # Media hotkeys, pause on suspend handling
+    - brightnessctl          # Internal display brightness control
+    - pavucontrol            # Audio control panel
+    - light                  # Brightness status for wob
+    state: latest
+
+- name: Ensure sway config directory exists
+  file:
+    path: "{{ home_dir }}/.config/sway"
+    state: directory
+
+- name: Install default sway config from template
+  copy:
+    src: "files/sway.config"
+    dest: "{{ home_dir }}/.config/sway/config"
+    mode: '0644'
+
+- name: Ensure waybar config directory exists
+  file:
+    path: "{{ home_dir }}/.config/waybar"
+    state: directory
+
+- name: Install waybar config from template
+  copy:
+    src: "files/waybar.config"
+    dest: "{{ home_dir }}/.config/waybar/config"
+    mode: '0644'
+
+- name: Install waybar style from template
+  copy:
+    src: "files/waybar.style.css"
+    dest: "{{ home_dir }}/.config/waybar/style.css"
+    mode: '0644'
+
+- name: Install lid handler script
+  copy:
+    src: "files/sway_lid_handler.sh"
+    dest: "{{ home_dir }}/.local/bin/sway_lid_handler.sh"
+    mode: '0755'
