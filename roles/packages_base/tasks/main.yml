@@ -101,3 +101,19 @@
     name: libva-intel-driver
     state: present
   when: (gpu_gen.stdout | int) <= 7
+
+- name: Install and configure SSH
+  hosts: localhost
+  become: yes
+
+  tasks:
+    - name: Install OpenSSH server and client
+      dnf:
+        name: openssh
+        state: present
+
+    - name: Start and enable SSH service
+      systemd:
+        name: sshd
+        state: started
+        enabled: yes
